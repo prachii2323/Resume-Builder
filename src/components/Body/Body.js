@@ -8,7 +8,7 @@ import Resume from "../Resume/Resume";
 import styles from "./Body.module.css";
 
 function Body() {
-  const colors = ["#239ce2", "#48bb78", "#0bc5ea", "#a0aec0", "#ed8936"];
+  const purpleColor = "#805ad5"; 
   const sections = {
     basicInfo: "Basic Info",
     workExp: "Work Experience",
@@ -20,7 +20,7 @@ function Body() {
   };
   const resumeRef = useRef();
 
-  const [activeColor, setActiveColor] = useState(colors[0]);
+  const [activeColor, setActiveColor] = useState(purpleColor); // Set initial active color to purple
   const [resumeInformation, setResumeInformation] = useState({
     [sections.basicInfo]: {
       id: sections.basicInfo,
@@ -62,30 +62,7 @@ function Body() {
   return (
     <div className={styles.container}>
       <p className={styles.heading}>Resume Builder</p>
-      <div className={styles.toolbar}>
-        <div className={styles.colors}>
-          {colors.map((item) => (
-            <span
-              key={item}
-              style={{ backgroundColor: item }}
-              className={`${styles.color} ${
-                activeColor === item ? styles.active : ""
-              }`}
-              onClick={() => setActiveColor(item)}
-            />
-          ))}
-        </div>
-        <ReactToPrint
-          trigger={() => {
-            return (
-              <button>
-                Download <ArrowDown />
-              </button>
-            );
-          }}
-          content={() => resumeRef.current}
-        />
-      </div>
+      
       <div className={styles.main}>
         <Editor
           sections={sections}
@@ -97,6 +74,19 @@ function Body() {
           sections={sections}
           information={resumeInformation}
           activeColor={activeColor}
+        />
+      </div>
+      <div className={styles.toolbar}>
+        {/* Remove the color selection */}
+        <ReactToPrint
+          trigger={() => {
+            return (
+              <button>
+                Download <ArrowDown />
+              </button>
+            );
+          }}
+          content={() => resumeRef.current}
         />
       </div>
     </div>
